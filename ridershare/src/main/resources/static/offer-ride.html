@@ -1,0 +1,140 @@
+<!-- ==================== OFFER-RIDE.HTML ==================== -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Ride - Campus Rideshare</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="container">
+    <header class="header">
+        <h1><a href="/" style="color: white; text-decoration: none;">🚲 Campus Rideshare</a></h1>
+    </header>
+
+    <div class="form-container">
+        <h2 style="text-align: center; color: #667eea; margin-bottom: 30px;">🏍️ Post a Ride</h2>
+
+        <div id="alert-container"></div>
+
+        <form id="ride-form">
+            <div class="form-group">
+                <label>From</label>
+                <input type="text" value="College" disabled>
+            </div>
+
+            <div class="form-group">
+                <label for="endLocation">To (Destination) *</label>
+                <input type="text" id="endLocation" required placeholder="e.g., Sector 17, Chandigarh">
+            </div>
+
+            <div class="form-group">
+                <label for="date">Date *</label>
+                <input type="date" id="date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="time">Time *</label>
+                <input type="time" id="time" required>
+            </div>
+
+            <div class="form-group">
+                <label for="distanceKm">Distance (km) *</label>
+                <input type="number" id="distanceKm" required min="1" placeholder="e.g., 15">
+                <p style="color: #718096; font-size: 0.9rem; margin-top: 5px;">
+                    Cost will be calculated at ₹5 per km
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label for="availableSeats">Available Seats *</label>
+                <input type="number" id="availableSeats" required min="1" max="3" value="1">
+            </div>
+
+            <div id="cost-preview" style="background: #f7fafc; padding: 15px; border-radius: 8px; margin: 20px 0; display: none;">
+                <h4 style="color: #667eea; margin-bottom: 10px;">Cost Breakdown:</h4>
+                <p>Distance: <strong id="preview-distance">0</strong> km</p>
+                <p>Rate: <strong>₹5</strong> per km</p>
+                <p style="font-size: 1.2rem; color: #48bb78; margin-top: 10px;">
+                    Total Cost: <strong>₹<span id="preview-total">0</span></strong>
+                </p>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
+                Post Ride
+            </button>
+        </form>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="/rider-dashboard.html" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const API_BASE = 'http://localhost:8080/api';
+
+    // Auto-calculate cost on distance change
+    document.getElementById('distanceKm').addEventListener('input', function(e) {
+        const distance = parseInt(e.target.value) || 0;
+        const costPerKm = 5;
+        const total = distance * costPerKm;
+
+        if (distance > 0) {
+            document.getElementById('cost-preview').style.display = 'block';
+            document.getElementById('preview-distance').textContent = distance;
+            document.getElementById('preview-total').textContent = total;
+        } else {
+            document.getElementById('cost-preview').style.display = 'none';
+        }
+    });
+
+    // Set min date to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('date').setAttribute('min', today);
+
+    document.getElementById('ride-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const formData = {
+            endLocation: document.getElementById('endLocation').value,
+            date: document.getElementById('date').value,
+            time: document.getElementById('time').value,
+            distanceKm: parseInt(document.getElementById('distanceKm').value),
+            availableSeats: parseInt(document.getElementById('availableSeats').value)
+        };
+
+        try {
+            const response = await fetch(`${API_BASE}/rides`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify(formData)
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                showAlert('Ride posted successfully!', 'success');
+                setTimeout(() => {
+                    window.location.href = '/rider-dashboard.html';
+                }, 1500);
+            } else {
+                showAlert(data.message || 'Failed to post ride', 'error');
+            }
+        } catch (error) {
+            showAlert('Network error', 'error');
+        }
+    });
+
+    function showAlert(message, type) {
+        const alertContainer = document.getElementById('alert-container');
+        alertContainer.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+        setTimeout(() => {
+            alertContainer.innerHTML = '';
+        }, 5000);
+    }
+</script>
+</body>
+</html>
