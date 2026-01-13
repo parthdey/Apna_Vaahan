@@ -4,11 +4,14 @@ FROM eclipse-temurin:17-jdk-alpine
 # Set working directory
 WORKDIR /app
 
+
+
 # Copy Maven wrapper & pom
 COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
 
+RUN chmod +x mvnw
 # Download dependencies
 RUN ./mvnw dependency:go-offline
 
