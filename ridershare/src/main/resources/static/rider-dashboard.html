@@ -41,8 +41,22 @@
 
 <script>
     const API_BASE = 'https://apna-vaahan.onrender.com/api';
-let currentUser = null;
-let refreshInterval = null;
+    let currentUser = null;
+    let refreshInterval = null;
+
+    fetch('/api/auth/me', { credentials: 'include' })
+      .then(res => {
+        if (!res.ok) throw new Error('Not logged in');
+        return res.json();
+      })
+      .then(user => {
+        if (!user.rider) {
+          window.location.href = '/find-ride.html';
+        }
+      })
+      .catch(() => {
+        window.location.href = '/login.html';
+      });
 
 async function init() {
     currentUser = JSON.parse(localStorage.getItem('user'));
@@ -99,7 +113,12 @@ async function loadMyRides() {
         }
 
         container.innerHTML = '<h3 style="margin-bottom: 15px;">📋 Posted Rides</h3>';
+        if (!Array.isArray(rides)) {
+          console.error("Invalid rides response", rides);
+          return;
+        }
         rides.forEach(ride => {
+
             container.innerHTML += createRideCard(ride);
         });
     } catch (error) {
@@ -343,16 +362,6 @@ init();
     console.log("DELETE RIDE ID:", rideId);
     alert("Delete clicked for ride: " + rideId);
 }
-
-fetch('/api/auth/me', { credentials: 'include' })
-  .then(res => {
-    if (!res.ok) throw new Error();
-    return res.json();
-  })
-  .then(user => {
-    document.getElementById('user-greeting').innerText =
-      `Welcome, ${user.name}`;
-  });
 
 </script>
 </body>
