@@ -48,7 +48,6 @@ document.getElementById('signup-form').addEventListener('submit', async function
 
         if (response.ok) {
             showAlert('Account created successfully! Redirecting...', 'success');
-            localStorage.setItem('user', JSON.stringify(data));
             setTimeout(() => {
                 if (data.rider === true) {
                     window.location.href = '/rider-dashboard.html';

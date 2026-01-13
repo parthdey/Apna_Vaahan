@@ -67,7 +67,6 @@
 
             if (response.ok) {
                 showAlert('Login successful! Redirecting...', 'success');
-                localStorage.setItem('user', JSON.stringify(data));
                 setTimeout(() => {
                     if (data.rider === true) {
                         window.location.href = '/rider-dashboard.html';

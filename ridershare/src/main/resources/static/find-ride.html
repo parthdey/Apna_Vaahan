@@ -264,8 +264,24 @@ function logout(e) {
     window.location.href = '/';
 }
 
+<script>
+fetch('/api/auth/me', { credentials: 'include' })
+  .then(res => {
+    if (!res.ok) throw new Error("Not logged in");
+    return res.json();
+  })
+  .then(user => {
+    document.getElementById('user-greeting').innerText =
+      `Welcome, ${user.name}`;
+  })
+  .catch(() => {
+    document.getElementById('user-greeting').innerText =
+      'Welcome, Guest';
+  });
+
 // Initialize on page load
 init();
+
 </script>
 </body>
 </html>

@@ -343,6 +343,18 @@ init();
     console.log("DELETE RIDE ID:", rideId);
     alert("Delete clicked for ride: " + rideId);
 }
+
+    <script>
+fetch('/api/auth/me', { credentials: 'include' })
+  .then(res => {
+    if (!res.ok) throw new Error();
+    return res.json();
+  })
+  .then(user => {
+    document.getElementById('user-greeting').innerText =
+      `Welcome, ${user.name}`;
+  });
+
 </script>
 </body>
 </html>
