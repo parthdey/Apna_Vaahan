@@ -1,4 +1,5 @@
-const API_BASE = 'http://localhost:8080/api';
+//const API_BASE = 'http://localhost:8080/api';
+const API_BASE = '/api';
 
 // Show/hide vehicle details based on rider checkbox
 document.getElementById('isRider').addEventListener('change', function(e) {
