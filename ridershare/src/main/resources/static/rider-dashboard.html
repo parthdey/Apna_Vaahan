@@ -105,6 +105,7 @@ async function loadMyRides() {
     } catch (error) {
         console.error('Error loading rides:', error);
         loading.style.display = 'none';
+        showAlert('No ride posted yet', 'error');
     }
 }
 
