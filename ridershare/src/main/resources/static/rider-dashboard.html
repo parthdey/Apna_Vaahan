@@ -40,23 +40,23 @@
 
 
 <script>
-    const API_BASE = 'https://apna-vaahan.onrender.com/api';
-    let currentUser = null;
-    let refreshInterval = null;
+<!--    const API_BASE = 'https://apna-vaahan.onrender.com/api';-->
+<!--    let currentUser = null;-->
+<!--    let refreshInterval = null;-->
 
-    fetch('/api/auth/me', { credentials: 'include' })
-      .then(res => {
-        if (!res.ok) throw new Error('Not logged in');
-        return res.json();
-      })
-      .then(user => {
-        if (!user.rider) {
-          window.location.href = '/find-ride.html';
-        }
-      })
-      .catch(() => {
-        window.location.href = '/login.html';
-      });
+<!--    fetch('/api/auth/me', { credentials: 'include' })-->
+<!--      .then(res => {-->
+<!--        if (!res.ok) throw new Error('Not logged in');-->
+<!--        return res.json();-->
+<!--      })-->
+<!--      .then(user => {-->
+<!--        if (!user.rider) {-->
+<!--          window.location.href = '/find-ride.html';-->
+<!--        }-->
+<!--      })-->
+<!--      .catch(() => {-->
+<!--        window.location.href = '/login.html';-->
+<!--      });-->
 
 async function init() {
     currentUser = JSON.parse(localStorage.getItem('user'));
