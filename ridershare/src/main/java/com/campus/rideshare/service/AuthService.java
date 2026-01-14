@@ -36,25 +36,16 @@ public class AuthService {
 
         // IMPORTANT: Set isRider - default to true if not specified
         Boolean isRiderValue = request.getIsRider();
-//        user.setRider(isRiderValue != null ? isRiderValue : true);
-        user.setRider(isRiderValue != null ? isRiderValue : false);
+        user.setRider(isRiderValue != null ? isRiderValue : true);
+//        user.setRider(isRiderValue != null ? isRiderValue : false);
 
         // Always set vehicle details if provided
-//        if (request.getVehicleNumber() != null && !request.getVehicleNumber().isEmpty()) {
-//            user.setRider(true); // If vehicle details provided, must be rider
-//            user.setVehicleType("Two Wheeler");
-//            user.setVehicleNumber(request.getVehicleNumber());
-//            user.setVehicleModel(request.getVehicleModel());
-//        }
-        if (Boolean.TRUE.equals(request.getIsRider())) {
-            user.setRider(true);
+        if (request.getVehicleNumber() != null && !request.getVehicleNumber().isEmpty()) {
+            user.setRider(true); // If vehicle details provided, must be rider
             user.setVehicleType("Two Wheeler");
             user.setVehicleNumber(request.getVehicleNumber());
             user.setVehicleModel(request.getVehicleModel());
-        } else {
-            user.setRider(false);
         }
-
 
         User savedUser = userRepository.save(user);
 
