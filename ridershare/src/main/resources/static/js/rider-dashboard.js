@@ -1,5 +1,7 @@
-const API_BASE = 'http://localhost:8080/api';
+//const API_BASE = 'http://localhost:8080/api';
+const API_BASE = '/api';
 let currentUser = null;
+let refreshInterval = null;
 
 async function init() {
     currentUser = JSON.parse(localStorage.getItem('user'));

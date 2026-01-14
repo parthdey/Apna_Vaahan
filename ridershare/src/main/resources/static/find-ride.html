@@ -41,7 +41,8 @@
 </div>
 
 <script>
-    const API_BASE = 'https://apna-vaahan.onrender.com/api';
+<!--    const API_BASE = 'https://apna-vaahan.onrender.com/api';-->
+const API_BASE = '/api';
 let currentUser = null;
 let refreshInterval = null;
 
@@ -283,5 +284,6 @@ fetch('/api/auth/me', { credentials: 'include' })
 init();
 
 </script>
+<script src="/main/resources/static/js/find-ride.js"></script>
 </body>
 </html>
