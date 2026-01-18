@@ -29,12 +29,11 @@ public class SignupRequest {
     private String vehicleModel;
 
     // Explicit getter for isRider (Lombok might have issues with Boolean 'is' prefix)
-    public Boolean getIsRider() {
-        return isRider;
-    }
-
-
-    public void setIsRider(Boolean isRider) {
-        this.isRider = isRider;
-    }
+//    public Boolean getIsRider() {
+//        return isRider;
+//    }
+//
+//    public void setIsRider(Boolean isRider) {
+//        this.isRider = isRider;
+//    }
 }

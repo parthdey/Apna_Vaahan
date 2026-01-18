@@ -1,3 +1,4 @@
+
 package com.campus.rideshare.config;
 
 import org.springframework.context.annotation.Bean;

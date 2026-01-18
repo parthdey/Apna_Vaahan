@@ -82,7 +82,9 @@ public class RequestService {
         User passenger = authService.getUserById(userId);
         List<RideRequest> requests = requestRepository.findByPassenger(passenger);
 
+        // Filter out requests where ride might be deleted
         return requests.stream()
+                .filter(req -> req.getRide() != null) // Skip if ride is null
                 .map(req -> mapToRequestResponse(req, false, true))
                 .collect(Collectors.toList());
     }
@@ -154,7 +156,14 @@ public class RequestService {
 
         RideRequestResponse response = new RideRequestResponse();
         response.setId(request.getId());
-        response.setRideId(request.getRide().getId());
+
+        // Safety check for ride
+        if (request.getRide() != null) {
+            response.setRideId(request.getRide().getId());
+        } else {
+            response.setRideId("DELETED"); // Ride was deleted
+        }
+
         response.setPassengerDestination(request.getPassengerDestination());
         response.setSeatsRequested(request.getSeatsRequested());
         response.setStatus(request.getStatus().toString());

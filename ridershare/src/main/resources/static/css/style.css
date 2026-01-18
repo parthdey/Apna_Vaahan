@@ -470,4 +470,8 @@ body {
     text-decoration: underline;
 }
 
+@keyframes highlight {
+    0%, 100% { background: white; }
+    50% { background: #c6f6d5; }
+}
 }

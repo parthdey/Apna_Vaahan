@@ -1,5 +1,8 @@
-//const API_BASE = 'http://localhost:8080/api';
-const API_BASE = '/api';
+const API_BASE =
+  window.location.hostname === 'localhost'
+    ? 'http://localhost:8080/api'
+    : '/api';
+
 // Auto-calculate cost on distance change
 document.getElementById('distanceKm').addEventListener('input', function(e) {
     const distance = parseInt(e.target.value) || 0;
