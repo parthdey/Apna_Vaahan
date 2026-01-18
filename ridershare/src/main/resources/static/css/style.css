@@ -474,4 +474,208 @@ body {
     0%, 100% { background: white; }
     50% { background: #c6f6d5; }
 }
+
+/* Enhanced Ride Cards */
+.ride-card {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    border-left: 4px solid #e5e7eb;
+}
+
+.ride-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+/* Status Badges - Enhanced */
+.status-badge {
+    padding: 8px 16px;
+    border-radius: 24px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.status-pending {
+    background: #fef3c7;
+    color: #92400e;
+    border: 2px solid #f59e0b;
+}
+
+.status-accepted {
+    background: #d1fae5;
+    color: #065f46;
+    border: 2px solid #10b981;
+}
+
+.status-rejected {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 2px solid #ef4444;
+}
+
+/* Detail Items - Better Spacing */
+.ride-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin: 15px 0;
+    padding: 18px;
+    background: #f9fafb;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.detail-label {
+    font-size: 0.8rem;
+    color: #6b7280;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.detail-value {
+    font-weight: 700;
+    color: #1f2937;
+    font-size: 1rem;
+}
+
+/* Button Enhancements */
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%);
+}
+
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+}
+
+/* Loading Spinner Enhancement */
+.loading {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.spinner {
+    border: 4px solid rgba(102, 126, 234, 0.1);
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 20px;
+}
+
+/* Empty State Enhancement */
+.empty-state {
+    text-align: center;
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+    border-radius: 16px;
+    border: 2px dashed #d1d5db;
+}
+
+.empty-state-icon {
+    font-size: 5rem;
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.empty-state h3 {
+    color: #374151;
+    margin-bottom: 10px;
+}
+
+.empty-state p {
+    color: #6b7280;
+}
+
+/* Ride Header Enhancement */
+.ride-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f3f4f6;
+}
+
+.ride-info h3 {
+    font-size: 1.3rem;
+    color: #1f2937;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Alert Enhancements */
+.alert {
+    padding: 16px 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border-left: 4px solid;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.alert-success {
+    background: #d1fae5;
+    color: #065f46;
+    border-color: #10b981;
+}
+
+.alert-error {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #ef4444;
+}
+
+.alert-info {
+    background: #dbeafe;
+    color: #1e40af;
+    border-color: #3b82f6;
+}
 }
