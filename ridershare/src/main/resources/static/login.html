@@ -40,58 +40,60 @@
 </div>
 
 <script>
-<!--    const API_BASE = 'http://localhost:8080/api';-->
-    const API_BASE = '/api';
+    const API_BASE =
+      window.location.hostname === 'localhost'
+        ? 'http://localhost:8080/api'
+        : '/api';
 
 
-    document.getElementById('login-form').addEventListener('submit', async function(e) {
-        e.preventDefault();
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
 
-        const formData = {
-            email: document.getElementById('email').value,
-            password: document.getElementById('password').value
-        };
+            const formData = {
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value
+            };
 
-        try {
-            const response = await fetch(`${API_BASE}/auth/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'include',
-                body: JSON.stringify(formData)
-            });
+            try {
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(formData)
+                });
 
-            const data = await response.json();
+                const data = await response.json();
 
 
-            if (response.ok) {
-                showAlert('Login successful! Redirecting...', 'success');
-                localStorage.setItem('user', JSON.stringify(data));
-                setTimeout(() => {
-                    if (data.rider === true) {
-                        window.location.href = '/rider-dashboard.html';
-                    } else {
-                        window.location.href = '/find-ride.html';
-                    }
+                if (response.ok) {
+                    showAlert('Login successful! Redirecting...', 'success');
+                    localStorage.setItem('user', JSON.stringify(data));
+                    setTimeout(() => {
+                        if (data.rider === true) {
+                            window.location.href = '/rider-dashboard.html';
+                        } else {
+                            window.location.href = '/find-ride.html';
+                        }
 
-                }, 1000);
-            } else {
-                showAlert(data.message || 'Invalid credentials', 'error');
+                    }, 1000);
+                } else {
+                    showAlert(data.message || 'Invalid credentials', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Network error. Please try again.', 'error');
             }
-        } catch (error) {
-            console.error('Error:', error);
-            showAlert('Network error. Please try again.', 'error');
-        }
-    });
+        });
 
-    function showAlert(message, type) {
-        const alertContainer = document.getElementById('alert-container');
-        alertContainer.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
-        setTimeout(() => {
-            alertContainer.innerHTML = '';
-        }, 5000);
-    }
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alert-container');
+            alertContainer.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+            setTimeout(() => {
+                alertContainer.innerHTML = '';
+            }, 5000);
+        }
 </script>
 </body>
 </html>

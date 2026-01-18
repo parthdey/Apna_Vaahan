@@ -4,18 +4,36 @@ const API_BASE =
     : '/api';
 
 let currentUser = null;
-let refreshInterval = null;
+    let refreshInterval = null;
 
 async function init() {
     currentUser = JSON.parse(localStorage.getItem('user'));
-    if (!currentUser || !currentUser.isRider) {
+    if (!currentUser || currentUser.rider !== true) {
         window.location.href = '/find-ride.html';
         return;
-    }
+        }
     document.getElementById('user-greeting').textContent = `Welcome, ${currentUser.name}!`;
-    loadMyRides();
-    loadRequests();
+
+    // Load data immediately
+    await loadData();
+
+    // Set up auto-refresh every 5 seconds
+    refreshInterval = setInterval(async () => {
+        await loadData();
+    }, 30000); // Refresh every 30 seconds
 }
+
+async function loadData() {
+    await loadMyRides();
+    await loadRequests();
+}
+
+// Clean up interval when leaving page
+window.addEventListener('beforeunload', () => {
+    if (refreshInterval) {
+        clearInterval(refreshInterval);
+    }
+});
 
 async function loadMyRides() {
     const loading = document.getElementById('loading');
@@ -43,13 +61,18 @@ async function loadMyRides() {
         }
 
         container.innerHTML = '<h3 style="margin-bottom: 15px;">📋 Posted Rides</h3>';
+        if (!Array.isArray(rides)) {
+          console.error("Invalid rides response", rides);
+          return;
+        }
         rides.forEach(ride => {
+
             container.innerHTML += createRideCard(ride);
         });
     } catch (error) {
         console.error('Error loading rides:', error);
         loading.style.display = 'none';
-        showAlert('Failed to load rides', 'error');
+        showAlert('No ride posted yet', 'error');
     }
 }
 
@@ -72,6 +95,30 @@ async function loadRequests() {
     }
 }
 
+async function deleteRide(rideId) {
+    if (!confirm("Are you sure you want to delete this ride?")) return;
+
+    try {
+        const response = await fetch(`${API_BASE}/rides/${rideId}`, {
+            method: 'DELETE',
+            credentials: 'include'
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            showAlert("Ride deleted successfully", "success");
+            await loadData(); // refresh list
+        } else {
+            showAlert(data.message || "Failed to delete ride", "error");
+        }
+    } catch (err) {
+        console.error(err);
+        showAlert("Network error", "error");
+    }
+}
+
+
 function createRideCard(ride) {
     return `
         <div class="ride-card">
@@ -79,8 +126,23 @@ function createRideCard(ride) {
                 <div class="ride-info">
                     <h3>${ride.startLocation} → ${ride.endLocation}</h3>
                 </div>
-                <span class="status-badge status-${ride.status.toLowerCase()}">${ride.status}</span>
+
+                <div style="display:flex; gap:10px; align-items:center;">
+                    <span class="status-badge status-${ride.status.toLowerCase()}">${ride.status}</span>
+
+                    <button onclick="deleteRide('${ride.id}')"
+                            title="Delete ride"
+                            style="
+                                background:none;
+                                border:none;
+                                cursor:pointer;
+                                font-size:18px;
+                                color:#e53e3e;">
+                        ❌
+                    </button>
+                </div>
             </div>
+
 
             <div class="ride-details">
                 <div class="detail-item">
@@ -167,10 +229,8 @@ async function acceptRequest(requestId) {
 
         if (response.ok) {
             showAlert('Request accepted!', 'success');
-            // Reload the page to show updated data
-            setTimeout(() => {
-                location.reload();
-            }, 1000);
+            // Reload data immediately instead of page reload
+            await loadData();
         } else {
             showAlert(data.message, 'error');
         }
@@ -193,10 +253,8 @@ async function rejectRequest(requestId) {
 
         if (response.ok) {
             showAlert('Request rejected', 'info');
-            // Reload the page to show updated data
-            setTimeout(() => {
-                location.reload();
-            }, 1000);
+            // Reload data immediately
+            await loadData();
         } else {
             showAlert(data.message, 'error');
         }
@@ -217,9 +275,7 @@ async function completeRide(rideId) {
 
         if (response.ok) {
             showAlert('Ride marked as completed!', 'success');
-            setTimeout(() => {
-                loadMyRides();
-            }, 1000);
+            await loadData();
         } else {
             showAlert('Failed to update ride status', 'error');
         }
@@ -245,3 +301,12 @@ function logout(e) {
 
 // Initialize on page load
 init();
+
+    function confirmDeleteRide(rideId) {
+    if (!confirm("Are you sure you want to delete this ride?")) {
+        return;
+    }
+
+    console.log("DELETE RIDE ID:", rideId);
+    alert("Delete clicked for ride: " + rideId);
+}

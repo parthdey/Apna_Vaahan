@@ -72,71 +72,71 @@
     </div>
 </div>
 
-<script>
-<!--    const API_BASE = 'https://apna-vaahan.onrender.com/api';-->
-const API_BASE = '/api';
+<!--<script>-->
+<!--&lt;!&ndash;    const API_BASE = 'https://apna-vaahan.onrender.com/api';&ndash;&gt;-->
+<!--const API_BASE = '/api';-->
 
-    // Auto-calculate cost on distance change
-    document.getElementById('distanceKm').addEventListener('input', function(e) {
-        const distance = parseInt(e.target.value) || 0;
-        const costPerKm = 5;
-        const total = distance * costPerKm;
+<!--    // Auto-calculate cost on distance change-->
+<!--    document.getElementById('distanceKm').addEventListener('input', function(e) {-->
+<!--        const distance = parseInt(e.target.value) || 0;-->
+<!--        const costPerKm = 5;-->
+<!--        const total = distance * costPerKm;-->
 
-        if (distance > 0) {
-            document.getElementById('cost-preview').style.display = 'block';
-            document.getElementById('preview-distance').textContent = distance;
-            document.getElementById('preview-total').textContent = total;
-        } else {
-            document.getElementById('cost-preview').style.display = 'none';
-        }
-    });
+<!--        if (distance > 0) {-->
+<!--            document.getElementById('cost-preview').style.display = 'block';-->
+<!--            document.getElementById('preview-distance').textContent = distance;-->
+<!--            document.getElementById('preview-total').textContent = total;-->
+<!--        } else {-->
+<!--            document.getElementById('cost-preview').style.display = 'none';-->
+<!--        }-->
+<!--    });-->
 
-    // Set min date to today
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('date').setAttribute('min', today);
+<!--    // Set min date to today-->
+<!--    const today = new Date().toISOString().split('T')[0];-->
+<!--    document.getElementById('date').setAttribute('min', today);-->
 
-    document.getElementById('ride-form').addEventListener('submit', async function(e) {
-        e.preventDefault();
+<!--    document.getElementById('ride-form').addEventListener('submit', async function(e) {-->
+<!--        e.preventDefault();-->
 
-        const formData = {
-            endLocation: document.getElementById('endLocation').value,
-            date: document.getElementById('date').value,
-            time: document.getElementById('time').value,
-            distanceKm: parseInt(document.getElementById('distanceKm').value),
-            availableSeats: parseInt(document.getElementById('availableSeats').value)
-        };
+<!--        const formData = {-->
+<!--            endLocation: document.getElementById('endLocation').value,-->
+<!--            date: document.getElementById('date').value,-->
+<!--            time: document.getElementById('time').value,-->
+<!--            distanceKm: parseInt(document.getElementById('distanceKm').value),-->
+<!--            availableSeats: parseInt(document.getElementById('availableSeats').value)-->
+<!--        };-->
 
-        try {
-            const response = await fetch(`${API_BASE}/rides`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
-                body: JSON.stringify(formData)
-            });
+<!--        try {-->
+<!--            const response = await fetch(`${API_BASE}/rides`, {-->
+<!--                method: 'POST',-->
+<!--                headers: { 'Content-Type': 'application/json' },-->
+<!--                credentials: 'include',-->
+<!--                body: JSON.stringify(formData)-->
+<!--            });-->
 
-            const data = await response.json();
+<!--            const data = await response.json();-->
 
-            if (response.ok) {
-                showAlert('Ride posted successfully!', 'success');
-                setTimeout(() => {
-                    window.location.href = '/rider-dashboard.html';
-                }, 1500);
-            } else {
-                showAlert(data.message || 'Failed to post ride', 'error');
-            }
-        } catch (error) {
-            showAlert('Network error', 'error');
-        }
-    });
+<!--            if (response.ok) {-->
+<!--                showAlert('Ride posted successfully!', 'success');-->
+<!--                setTimeout(() => {-->
+<!--                    window.location.href = '/rider-dashboard.html';-->
+<!--                }, 1500);-->
+<!--            } else {-->
+<!--                showAlert(data.message || 'Failed to post ride', 'error');-->
+<!--            }-->
+<!--        } catch (error) {-->
+<!--            showAlert('Network error', 'error');-->
+<!--        }-->
+<!--    });-->
 
-    function showAlert(message, type) {
-        const alertContainer = document.getElementById('alert-container');
-        alertContainer.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
-        setTimeout(() => {
-            alertContainer.innerHTML = '';
-        }, 5000);
-    }
-</script>
+<!--    function showAlert(message, type) {-->
+<!--        const alertContainer = document.getElementById('alert-container');-->
+<!--        alertContainer.innerHTML = `<div class="alert alert-${type}">${message}</div>`;-->
+<!--        setTimeout(() => {-->
+<!--            alertContainer.innerHTML = '';-->
+<!--        }, 5000);-->
+<!--    }-->
+<!--</script>-->
 <script src="/js/offer-ride.js"></script>
 </body>
 </html>

@@ -3,8 +3,8 @@ const API_BASE =
     ? 'http://localhost:8080/api'
     : '/api';
 
-
 let currentUser = null;
+let refreshInterval = null;
 
 async function init() {
     currentUser = JSON.parse(localStorage.getItem('user'));
@@ -33,8 +33,21 @@ async function init() {
         }
     }
 
-    showAllRides();
+    // Load rides immediately
+    await showAllRides();
+
+    // Set up auto-refresh every 10 seconds for browse page
+    refreshInterval = setInterval(async () => {
+        await showAllRides();
+    }, 30000); // Refresh every 10 seconds
 }
+
+// Clean up interval when leaving page
+window.addEventListener('beforeunload', () => {
+    if (refreshInterval) {
+        clearInterval(refreshInterval);
+    }
+});
 
 async function showAllRides() {
     const loading = document.getElementById('loading');
@@ -162,7 +175,7 @@ function createRideCard(ride) {
 async function requestRide(rideId) {
     // Check if user is logged in
     if (!currentUser) {
-        alert('Please signup/login as a rider first to request rides!');
+        alert('Please signup/login as a rider or passenger first to request rides!');
         window.location.href = '/signup.html';
         return;
     }
@@ -211,6 +224,21 @@ function logout(e) {
     localStorage.removeItem('user');
     window.location.href = '/';
 }
+
+
+fetch('/api/auth/me', { credentials: 'include' })
+  .then(res => {
+    if (!res.ok) throw new Error("Not logged in");
+    return res.json();
+  })
+  .then(user => {
+    document.getElementById('user-greeting').innerText =
+      `Welcome, ${user.name}`;
+  })
+  .catch(() => {
+    document.getElementById('user-greeting').innerText =
+      'Welcome, Guest';
+  });
 
 // Initialize on page load
 init();
