@@ -5,58 +5,534 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campus Rideshare - Share Rides, Save Money</title>
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Top navigation bar - Enhanced & Beautiful */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.98) 0%, rgba(118, 75, 162, 0.98) 100%);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            z-index: 1000;
+            padding: 18px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .top-nav.scrolled {
+            padding: 12px 5%;
+            box-shadow: 0 6px 30px rgba(0,0,0,0.2);
+        }
+
+        .top-nav-logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.2s ease;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .top-nav-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .top-nav-logo .logo-icon {
+            font-size: 2rem;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            0%, 90%, 100% { transform: rotate(0deg); }
+            92%, 98% { transform: rotate(15deg); }
+            94%, 96% { transform: rotate(-15deg); }
+        }
+
+        .top-nav-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .user-greeting {
+            color: white;
+            font-weight: 600;
+            transform: translateX(-50%);
+            font-size: 1rem;
+            display: flex;
+<!--            align-items: center;-->
+            gap: 8px;
+            justify-content: center;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .user-greeting:hover {
+            background: rgba(255, 255, 255, 0.25);
+<!--            transform: translateY(-2px);-->
+        }
+
+        .user-greeting strong {
+            font-weight: 700;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 0.95rem;
+            backdrop-filter: blur(10px);
+            margin-bottom: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logout-btn:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .logout-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Add padding to body when nav is visible */
+        body.logged-in {
+            padding-top: 85px;
+        }
+
+        /* Main container responsive */
+        .container {
+            max-width: 1400px;
+            padding: 20px 5%;
+        }
+
+        /* Logged-in hero section - Enhanced */
+        .logged-in-hero {
+            background: white;
+            border-radius: 24px;
+            padding: 50px 40px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin: 40px 0;
+            margin-top: 100px;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .logged-in-hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+        }
+
+        .logged-in-hero p {
+            font-size: 1.15rem;
+            color: #6b7280;
+            margin-bottom: 40px;
+            font-weight: 500;
+        }
+
+        /* Action buttons for logged-in users - Enhanced */
+        .action-buttons-logged {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 35px;
+        }
+
+        .action-btn {
+            padding: 35px 25px;
+            border-radius: 20px;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .action-btn:hover::before {
+            opacity: 1;
+        }
+
+        .action-btn-dashboard {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .action-btn-dashboard:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .action-btn-post {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            box-shadow: 0 8px 25px rgba(72, 187, 120, 0.3);
+        }
+
+        .action-btn-post:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(72, 187, 120, 0.4);
+        }
+
+        .action-btn-browse {
+            background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+            color: white;
+            box-shadow: 0 8px 25px rgba(66, 153, 225, 0.3);
+        }
+
+        .action-btn-browse:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(66, 153, 225, 0.4);
+        }
+
+        .action-btn-icon {
+            font-size: 3.5rem;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .action-btn:hover .action-btn-icon {
+            transform: scale(1.1) rotate(5deg);
+            animation: none;
+        }
+
+        .action-btn-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .action-btn-desc {
+            font-size: 0.95rem;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        /* Guest content enhancement */
+        .hero-section {
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .action-buttons-logged {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 20px;
+            }
+
+            .logged-in-hero {
+                padding: 40px 30px;
+                margin-top:100px
+            }
+        }
+
+        @media (max-width: 768px) {
+            .top-nav {
+                padding: 15px 4%;
+            }
+
+            .top-nav-logo {
+                font-size: 1.3rem;
+            }
+
+            .top-nav-logo .logo-icon {
+                font-size: 1.6rem;
+            }
+
+            .user-greeting {
+                display: none;
+            }
+
+            .logout-btn {
+                padding: 8px 18px;
+                font-size: 0.85rem;
+            }
+
+            body.logged-in {
+                padding-top: 75px;
+            }
+
+            .container {
+                padding: 15px 4%;
+            }
+
+            .logged-in-hero {
+                padding: 30px 20px;
+                border-radius: 16px;
+                margin: 100px 0;
+            }
+
+            .logged-in-hero h2 {
+                font-size: 1.8rem;
+            }
+
+            .logged-in-hero p {
+                font-size: 1rem;
+                margin-bottom: 30px;
+            }
+
+            .action-buttons-logged {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .action-btn {
+                padding: 25px 20px;
+            }
+
+            .action-btn-icon {
+                font-size: 2.8rem;
+            }
+
+            .action-btn-title {
+                font-size: 1.2rem;
+            }
+
+            .action-btn-desc {
+                font-size: 0.85rem;
+            }
+
+            /* Guest content responsive */
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .hero-section {
+                padding: 30px 20px;
+            }
+
+            .hero-section h2 {
+                font-size: 1.6rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn-large {
+                width: 100%;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .top-nav-logo {
+                font-size: 1.1rem;
+            }
+
+            .logout-btn {
+                padding: 6px 14px;
+                font-size: 0.8rem;
+            }
+
+            .logged-in-hero h2 {
+                font-size: 1.5rem;
+            }
+
+            .action-btn-icon {
+                font-size: 2.5rem;
+            }
+
+            .action-btn-title {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Loading animation */
+        .top-nav, .logged-in-hero, .action-btn {
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
 </head>
 <body>
+<!-- Top Navigation (Only visible when logged in) -->
+<!--<nav id="logged-in-header" class="top-nav" style="display: none;">-->
+<!--    <a href="/" class="top-nav-logo">-->
+<!--        <span class="logo-icon">🚲</span>-->
+<!--        <span>Campus Rideshare</span>-->
+<!--    </a>-->
+<!--    <div class="top-nav-right">-->
+<!--            <span class="user-greeting">-->
+<!--                <span>👋</span>-->
+<!--                <span>Welcome, <strong id="user-name">User</strong>!</span>-->
+<!--            </span>-->
+<!--        <button onclick="logout(event)" class="logout-btn">Logout</button>-->
+<!--    </div>-->
+<!--</nav>-->
+
+<nav id="logged-in-header" class="top-nav">
+    <a href="/" class="top-nav-logo">
+        <span>🚲</span>
+        <span>Campus Rideshare</span>
+    </a>
+
+    <!-- CENTER -->
+    <div class="top-nav-center">
+        <span class="user-greeting">
+            👋 Welcome, <strong id="user-name">User</strong>!
+        </span>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="top-nav-right">
+        <button onclick="logout(event)" class="logout-btn">Logout</button>
+    </div>
+</nav>
+
+
 <div class="container">
-    <header class="header">
+    <!-- Guest Header (Only visible when NOT logged in) -->
+    <header id="guest-header" class="header">
         <h1>🚲 Campus Rideshare</h1>
         <p class="tagline">Connect. Ride. Save.</p>
     </header>
 
-    <div class="hero-section">
-        <h2>Going Home? Find a Ride!</h2>
-        <p>Share rides with fellow students. Save money. Travel together.</p>
+    <!-- GUEST CONTENT (Not Logged In) -->
+    <div id="guest-content">
+        <div class="hero-section">
+            <h2>Going Home? Find a Ride!</h2>
+            <p>Share rides with fellow students. Save money. Travel together.</p>
 
-        <div class="action-buttons">
-            <a href="/find-ride.html" class="btn btn-primary btn-large">
-                🔍 Find a Ride
-            </a>
-            <a href="/signup.html" class="btn btn-secondary btn-large">
-                🏍️ Become a Rider
-            </a>
+            <div class="action-buttons">
+                <a href="/find-ride.html" class="btn btn-primary btn-large">
+                    🔍 Find a Ride
+                </a>
+                <a href="/signup.html" class="btn btn-secondary btn-large">
+                    🏍️ Become a Rider
+                </a>
+            </div>
+
+            <p style="margin-top: 20px; color: #718096;">
+                💡 <strong>Passengers:</strong> No signup needed! Browse rides freely.<br>
+                <strong>Riders:</strong> Sign up to offer rides and earn money.
+            </p>
         </div>
 
-        <p style="margin-top: 20px; color: #718096;">
-            💡 <strong>Passengers:</strong> Sign up to Browse rides freely.<br>
-            <strong>Riders:</strong> Sign up to offer rides and earn money.
-        </p>
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>Save Money</h3>
+                <p>Split costs at just ₹5/km</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤝</div>
+                <h3>Meet Students</h3>
+                <p>Connect with your campus community</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌱</div>
+                <h3>Eco-Friendly</h3>
+                <p>Reduce carbon footprint together</p>
+            </div>
+        </div>
+
+        <div class="auth-links">
+            <p>Already a rider? <a href="/login.html">Login</a></p>
+        </div>
     </div>
 
-    <div class="features">
-        <div class="feature-card">
-            <div class="feature-icon">💰</div>
-            <h3>Save Money</h3>
-            <p>Split costs at just ₹5/km</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icon">🤝</div>
-            <h3>Meet Students</h3>
-            <p>Connect with your campus community</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icon">🌱</div>
-            <h3>Eco-Friendly</h3>
-            <p>Reduce carbon footprint together</p>
-        </div>
-    </div>
+    <!-- LOGGED IN CONTENT (Rider Dashboard Quick Access) -->
+    <div id="logged-in-content" >
+        <div class="logged-in-hero">
+            <h2>Welcome back, <span id="welcome-name">Rider</span>!</h2>
+            <p>Ready to ride today? Choose an action below.</p>
 
-    <div class="auth-links">
-        <p>Already a User? <a href="/login.html">Login</a></p>
+            <div class="action-buttons-logged">
+                <a href="/rider-dashboard.html" class="action-btn action-btn-dashboard">
+                    <div class="action-btn-icon">🏍️</div>
+                    <div class="action-btn-title">My Dashboard</div>
+                    <div class="action-btn-desc">Manage your rides & requests</div>
+                </a>
+
+                <a href="/offer-ride.html" class="action-btn action-btn-post">
+                    <div class="action-btn-icon">➕</div>
+                    <div class="action-btn-title">Post New Ride</div>
+                    <div class="action-btn-desc">Offer a ride and earn money</div>
+                </a>
+
+                <a href="/find-ride.html" class="action-btn action-btn-browse">
+                    <div class="action-btn-icon">🔍</div>
+                    <div class="action-btn-title">Browse Rides</div>
+                    <div class="action-btn-desc">Find rides to your destination</div>
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 
 <footer class="footer">
     <p>&copy; 2024 Campus Rideshare. Made with ❤️ for students.</p>
 </footer>
+
+<script src="/js/index.js"></script>
 </body>
 </html>
