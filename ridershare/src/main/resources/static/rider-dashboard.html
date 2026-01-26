@@ -7,18 +7,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rider Dashboard - Campus Rideshare</title>
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .welcome-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border-radius: 999px; /* this makes it cylindrical */
+    background: rgba(0, 0, 0);
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.3);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.wave {
+    animation: wave 1.5s infinite;
+}
+
+@keyframes wave {
+    0% { transform: rotate(0deg); }
+    20% { transform: rotate(20deg); }
+    40% { transform: rotate(-10deg); }
+    60% { transform: rotate(20deg); }
+    100% { transform: rotate(0deg); }
+}
+    </style>
 </head>
 <body>
 
 <div class="container">
     <header class="header">
-        <h1><a href="/" style="color: white; text-decoration: none;">🚲 Campus Rideshare</a></h1>
+        <div class="welcome-pill">
+            <!--            <span class="wave">👋</span>-->
+            <span>Apnaवाहन</span>
+            <!--            <strong id="user-greeting">Parth Dey!</strong>-->
+        </div>
         <p id="user-greeting" style="margin-top: 10px;"></p>
     </header>
 
     <div style="background: white; border-radius: 20px; padding: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-            <h2 style="color: #667eea;">🏍️ My Rides</h2>
+            <h2 style="color: #667eea;">My-Rides</h2>
             <a href="/offer-ride.html" class="btn btn-primary">+ Post New Ride</a>
         </div>
 

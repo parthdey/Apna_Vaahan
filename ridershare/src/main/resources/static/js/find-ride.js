@@ -385,6 +385,23 @@ async function showAllRides() {
     }
 }
 
+const searchInput = document.getElementById("search");
+
+// Enter key search
+searchInput.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    searchRides();
+  }
+});
+
+// Auto show all when input is cleared
+searchInput.addEventListener("input", function () {
+  if (this.value.trim() === "") {
+    showAllRides();
+  }
+});
+
 async function searchRides() {
     const destination = document.getElementById('search').value.trim();
     if (!destination) {
@@ -543,6 +560,5 @@ async function logout(e) {
     localStorage.removeItem('user');
     window.location.href = '/';
 }
-
 // Initialize on page load
 init();

@@ -289,6 +289,7 @@
 
             .top-nav-logo {
                 font-size: 1.3rem;
+                width: 50%
             }
 
             .top-nav-logo .logo-icon {
@@ -411,6 +412,33 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
+
+        .welcome-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border-radius: 999px; /* this makes it cylindrical */
+    background: rgba(0, 0, 0);
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.3);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.wave {
+    animation: wave 1.5s infinite;
+}
+
+@keyframes wave {
+    0% { transform: rotate(0deg); }
+    20% { transform: rotate(20deg); }
+    40% { transform: rotate(-10deg); }
+    60% { transform: rotate(20deg); }
+    100% { transform: rotate(0deg); }
+}
     </style>
 </head>
 <body>
@@ -431,8 +459,9 @@
 
 <nav id="logged-in-header" class="top-nav">
     <a href="/" class="top-nav-logo">
-        <span>🚲</span>
-        <span>Campus Rideshare</span>
+        <div class="welcome-pill">
+            <span>Apnaवाहन</span>
+        </div>
     </a>
 
     <!-- CENTER -->
@@ -452,7 +481,9 @@
 <div class="container">
     <!-- Guest Header (Only visible when NOT logged in) -->
     <header id="guest-header" class="header">
-        <h1>🚲 Campus Rideshare</h1>
+        <div class="welcome-pill">
+            <span>Apnaवाहन</span>
+        </div>
         <p class="tagline">Connect. Ride. Save.</p>
     </header>
 
@@ -472,7 +503,7 @@
             </div>
 
             <p style="margin-top: 20px; color: #718096;">
-                💡 <strong>Passengers:</strong> No signup needed! Browse rides freely.<br>
+                <strong>Passengers:</strong> Browse rides freely.<br>
                 <strong>Riders:</strong> Sign up to offer rides and earn money.
             </p>
         </div>
@@ -496,7 +527,12 @@
         </div>
 
         <div class="auth-links">
-            <p>Already a rider? <a href="/login.html">Login</a></p>
+            <p>
+                Already a rider?
+                <button onclick="window.location.href='/login.html'" class="btn btn-secondary btn-sm" style="margin-top: 10px;">
+                    Login
+                </button>
+            </p>
         </div>
     </div>
 
