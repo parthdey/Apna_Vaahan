@@ -22,7 +22,7 @@ body {
 .header {
     text-align: center;
     color: white;
-    padding: 40px 20px;
+    padding: 10px;
     position: relative;
 }
 
@@ -855,8 +855,9 @@ a[href^="tel:"]:hover {
   }
 
   .header {
-    text-align: center;
-    padding-top: 20px;
+        text-align: center;
+        padding-top: 0px;
+        padding-bottom: 0;
   }
 
   #user-greeting {
