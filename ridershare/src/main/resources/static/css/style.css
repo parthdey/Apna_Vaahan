@@ -33,9 +33,12 @@ body {
 }
 
 .tagline {
-    font-size: 1.2rem;
-    opacity: 0.9;
-}
+        font-size: 1.2rem;
+        opacity: 0.9;
+        text-align: center;
+        color: white;
+        margin-top: 30px;
+    }
 
 /* Logout Button */
 .logout-btn {
@@ -583,7 +586,7 @@ body {
 .btn-sm {
     padding: 8px 16px;
     font-size: 0.9rem;
-    width:100%
+    width: fit-content;
 }
 
 /* Loading Spinner Enhancement */
@@ -739,6 +742,7 @@ body {
         align-self: flex-start !important;
         font-size: 0.85rem !important;
         padding: 8px 16px !important;
+        width: fit-content;
     }
 
     .ride-card {
@@ -837,5 +841,43 @@ a[href^="tel:"]:hover {
         display: none;
     }
 }
+
+
+
+
+@media (max-width: 768px) {
+
+  .welcome-pill {
+    width: 90%;
+    justify-content: center;
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+
+  .header {
+    text-align: center;
+    padding-top: 20px;
+  }
+
+  #user-greeting {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.95rem;
+  }
+
+  .container {
+    padding: 15px;
+  }
+
+  .ride-card {
+    padding: 15px;
+  }
+
+  .ride-details {
+    grid-template-columns: 1fr 1fr; /* instead of 3 or 4 */
+    gap: 10px;
+  }
+}
+
 
 }

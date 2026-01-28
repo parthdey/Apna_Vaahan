@@ -56,9 +56,9 @@
         }
 
         .top-nav-right {
-            display: flex;
-            align-items: center;
-            gap: 25px;
+                align-items: center;
+                gap: 25px;
+                margin-bottom: 18px;
         }
 
         .user-greeting {
@@ -423,6 +423,7 @@
     color: white;
     font-weight: 600;
     font-size: 1rem;
+    width: fit-content;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255,255,255,0.3);
     box-shadow: 0 6px 20px rgba(0,0,0,0.15);
@@ -461,15 +462,18 @@
     <div class="top-nav-right">
         <button onclick="logout(event)" class="logout-btn">Logout</button>
     </div>
-</nav>
-
 
 <div class="container">
     <!-- Guest Header (Only visible when NOT logged in) -->
-    <header id="guest-header" class="header">
-        <div class="welcome-pill">
+    <nav class="welcome-pill ">
+        <div class="logo">
             <span>Apnaवाहन</span>
         </div>
+    </nav>
+    <header id="guest-header" class="header">
+<!--        <div class="welcome-pill">-->
+<!--            <span>Apnaवाहन</span>-->
+<!--        </div>-->
         <p class="tagline">Connect. Ride. Save.</p>
     </header>
 
